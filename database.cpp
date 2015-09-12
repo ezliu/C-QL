@@ -26,7 +26,13 @@ int main()
 			string single_command;
 			cout << "Enter a SQL command" << endl;
 			getline(cin, single_command);
-			unique_ptr<Expression> exp = getExpression(single_command);
+			try {
+				unique_ptr<Expression> exp = getExpression(single_command);
+
+			}
+			catch (exception e) {
+
+			}
 		} else if (input == "2") {
 		} else {
 			cout << input << " is not a valid option." << endl;

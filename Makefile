@@ -15,8 +15,8 @@ getObj:
 putObj:
 	-mv *.[oa] ${OBJECTS} 2>/dev/null
 
-Database: database.o expression.o evaluation_context.o parser.o expression_factory.o tokenizer.o
-	${GCC} ${CXXFLAGS} database.o expression.o evaluation_context.o parser.o expression_factory.o tokenizer.o -o Database
+Database: database.o expression.o evaluation_context.o parser.o expression_factory.o tokenizer.o exception.o
+	${GCC} ${CXXFLAGS} database.o expression.o evaluation_context.o parser.o expression_factory.o tokenizer.o exception.o -o Database
 
 database.o: database.cpp
 	${GCC} ${CXXFLAGS} database.cpp -c
@@ -35,6 +35,9 @@ parser.o: parser.cpp parser.h
 
 tokenizer.o: tokenizer.cpp tokenizer.h
 	${GCC} ${CXXFLAGS} tokenizer.cpp -c
+
+exception.o: exception.cpp exception.h
+	${GCC} ${CXXFLAGS} exception.cpp -c
 
 ctags:
 	ctags -R *

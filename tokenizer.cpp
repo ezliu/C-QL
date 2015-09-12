@@ -13,3 +13,8 @@ std::string Tokenizer::nextWord()
 	ss >> s;
 	return s;
 }
+
+bool Tokenizer::hasNextWord()
+{
+	return !ss.eof();
+}
