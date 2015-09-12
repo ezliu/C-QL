@@ -1,5 +1,6 @@
 //expression.h
 
+#pragma once
 #include <string>
 #include "evaluation_context.h"
 
