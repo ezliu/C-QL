@@ -18,3 +18,13 @@ bool Tokenizer::hasNextWord()
 {
 	return !ss.eof();
 }
+
+std::string Tokenizer::rest()
+{
+	using namespace std;
+	string rest = "";
+	while (hasNextWord()) {
+		rest += " " + nextWord();
+	}
+	return rest;
+}

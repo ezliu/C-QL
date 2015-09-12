@@ -5,6 +5,7 @@
 #include <string>
 #include <sstream>
 
+#include "exception.h"
 #include "expression.h"
 #include "parser.h"
 #include "expression_factory.h"
@@ -30,7 +31,8 @@ int main()
 				unique_ptr<Expression> exp = getExpression(single_command);
 
 			}
-			catch (exception e) {
+			catch (Exception e) {
+				cout << e.what() << endl;
 
 			}
 		} else if (input == "2") {
