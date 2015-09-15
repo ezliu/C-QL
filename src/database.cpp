@@ -4,6 +4,7 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <vector>
 
 #include "exception.h"
 #include "expression.h"
@@ -22,13 +23,27 @@ int main()
 		getline(cin, input);
 		if (tolowercase(input) == "q")
 		{
+			cout << "Exiting" << endl;
 			return 0;
 		} else if (input == "1") {
-			string single_command;
+			EvaluationContext context;
+			//string command;
+			//string line;
+			//while (getline(cin, line)) {
+			//	command += line;
+			//}
+			//cin.fail() = false;
 			cout << "Enter a SQL command" << endl;
+			string single_command;
 			getline(cin, single_command);
 			try {
-				unique_ptr<Expression> exp = getExpression(single_command);
+				//vector<auto_ptr<Expression>> exps = parseExpressions(single_command);
+				//for (const auto_ptr<Expression> &exp : exps) {
+				//	exp->execute(context);
+				//}
+				
+				Tokenizer tokenizer(single_command);
+				auto_ptr<Expression> exp = getExpression(tokenizer);
 
 			}
 			catch (Exception e) {
@@ -41,8 +56,6 @@ int main()
 		}
 		cout << endl << endl;
 	}
-	string word = "hello";
-	CreateExpression exp(word);
 	//stringstream ss;
 	//ss << "Hello, world!;" << endl;
 	//while(!ss.eof()) {
