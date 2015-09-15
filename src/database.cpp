@@ -36,6 +36,7 @@ int main()
 			cout << "Enter a SQL command" << endl;
 			string single_command;
 			getline(cin, single_command);
+			cout << single_command << endl;
 			try {
 				//vector<auto_ptr<Expression>> exps = parseExpressions(single_command);
 				//for (const auto_ptr<Expression> &exp : exps) {
@@ -44,7 +45,7 @@ int main()
 				
 				Tokenizer tokenizer(single_command);
 				auto_ptr<Expression> exp = getExpression(tokenizer);
-
+				exp->execute(context);
 			}
 			catch (Exception e) {
 				cout << e.what() << endl;
@@ -72,4 +73,10 @@ int main()
 	//while (!file.eof()) {
 	//}
 	return 0;
+}
+
+CreateExpression sample()
+{
+	Tokenizer t("Hello, world");
+	return CreateExpression(t);
 }

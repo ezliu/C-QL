@@ -13,8 +13,15 @@ class Expression
 		virtual void execute(EvaluationContext &context) = 0;
 };
 
+//INSTANCES
 class CreateExpression : public Expression
 {
+	enum CreateType {
+		TABLE,
+		PROCEDURE,
+		FUNCTION
+	};
+
 	public:
 		// CONSTRUCTORS
 		CreateExpression(Tokenizer &tokenizer);
@@ -22,6 +29,6 @@ class CreateExpression : public Expression
 
 		void execute(EvaluationContext &context);
 	private:
-		int createType; // TODO: Deprecate this for enum
+		CreateType createType; 
 		std::string name;
 };
