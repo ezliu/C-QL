@@ -1,7 +1,11 @@
 1
 Hello, world! Who are you?
 1
-CREATE TABLE sample_table
+CREATE TABLE sample_table(x int, y float, z string)
+1
+DROP TABLE sample_table
+1
+CREATE TABLE sample_table (x int, y float, z string)
 1
 DROP TABLE sample_table
 q

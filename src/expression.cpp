@@ -27,12 +27,12 @@ ModifyExpression::ModifyExpression(Tokenizer &tokenizer)
 		assert(0);
 		// Throw an exception
 	}
-	string type = tolowercase(tokenizer.nextWord());
-	if (type == TABLE_STRING) {
+	string type_str = tolowercase(tokenizer.nextWord());
+	if (type_str == TABLE_STRING) {
 		type = TABLE;
-	} else if (type == PROCEDURE_STRING) {
+	} else if (type_str == PROCEDURE_STRING) {
 		type = PROCEDURE;
-	} else if (type == FUNCTION_STRING) {
+	} else if (type_str == FUNCTION_STRING) {
 		type = FUNCTION;
 	} else {
 		assert(0);
@@ -49,15 +49,10 @@ ModifyExpression::ModifyExpression(Tokenizer &tokenizer)
 }
 
 CreateExpression::CreateExpression(Tokenizer &tokenizer) :
-   ModifyExpression(tokenizer)
+    ModifyExpression(tokenizer),
+	params(tokenizer.getParameters())
 {
 }
-
-//CreateExpression::CreateExpression(const std::string &type)
-//{
-//	//this->type = type;
-//	std::cout << "CreateExpression()" << std::endl;
-//}
 
 void CreateExpression::initializeAppropriateFiles()
 {
@@ -68,6 +63,12 @@ void CreateExpression::initializeAppropriateFiles()
 			case TABLE: {
 				fstream schema = createFile(SCHEMA_DIR + name + SCHEMA_EXTENSION);
 				fstream table = createFile(TABLE_DIR + name + TABLE_EXTENSION);
+				schema << "( ";
+				schema << params[0].first << " " << params[0].second;
+				for (size_t i = 1; i < params.size(); i++) {
+					schema << ", " << params[i].first << " " << params[i].second;
+				}
+				schema << " )";
 				break;
 			}
 			case FUNCTION:
@@ -75,7 +76,8 @@ void CreateExpression::initializeAppropriateFiles()
 			case PROCEDURE:
 				break;
 			default:
-				assert(0);
+				SyntaxException s("Type Error");
+				throw s;
 				break;
 		};
 	} catch (FileExistsException e) {
@@ -87,7 +89,7 @@ void CreateExpression::initializeAppropriateFiles()
 void CreateExpression::execute(EvaluationContext &context)
 {
 	using namespace std;
-	cout << "execute(EvaluationContext)" << endl;
+	cout << "CreateExpression::execute(EvaluationContext)" << endl;
 	initializeAppropriateFiles();
 	cout << "Tables created :)" << endl;
 }
@@ -105,6 +107,7 @@ void DropExpression::execute(EvaluationContext &context)
 		case TABLE: {
 			deleteFile(TABLE_DIR + name + TABLE_EXTENSION);
 			deleteFile(SCHEMA_DIR + name + SCHEMA_EXTENSION);
+			cout << "Table dropped." << endl;
 			break;
 		}
 		case FUNCTION:
@@ -112,7 +115,7 @@ void DropExpression::execute(EvaluationContext &context)
 		case PROCEDURE:
 			break;
 		default:
-			assert(0);
+			//assert(0);
 			break;
 	};
 }

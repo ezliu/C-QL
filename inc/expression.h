@@ -4,6 +4,7 @@
 #include <string>
 #include <fstream>
 
+#include "datatype.h"
 #include "evaluation_context.h"
 #include "tokenizer.h"
 
@@ -50,10 +51,10 @@ class CreateExpression : public ModifyExpression
 	public:
 		// CONSTRUCTORS
 		CreateExpression(Tokenizer &tokenizer);
-		//CreateExpression(const std::string &type);
 
 		void execute(EvaluationContext &context);
 	private:
+		std::vector<std::pair<std::string, DataType>> params;
 		void initializeAppropriateFiles();
 
 };
