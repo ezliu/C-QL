@@ -2,4 +2,6 @@
 Hello, world! Who are you?
 1
 CREATE TABLE sample_table
+1
+DROP TABLE sample_table
 q

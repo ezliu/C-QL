@@ -48,5 +48,9 @@ clean:
 	-rm -vf Database
 	-rm -vf ${OBJECTS}/*.[oa]
 
+.PHONY: drop_tables
+drop_tables:
+	-rm -vf data/table/* data/schema/*
+
 ctags:
 	ctags -R *

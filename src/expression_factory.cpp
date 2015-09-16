@@ -34,6 +34,8 @@ std::auto_ptr<Expression> getExpression(Tokenizer &tokenizer)
 	Expression *exp;
 	if (expression_type == "create") {
 		exp = new CreateExpression(tokenizer);
+	} else if (expression_type == "drop") {
+		exp = new DropExpression(tokenizer);
 	} else {
 		string error_message = "Syntax error near: " + next_token;
 		error_message += "\n" + next_token + "^ " + tokenizer.rest();

@@ -76,6 +76,7 @@ void CreateExpression::initializeAppropriateFiles()
 				break;
 			default:
 				assert(0);
+				break;
 		};
 	} catch (FileExistsException e) {
 		SyntaxException s("syntax error");
@@ -88,4 +89,30 @@ void CreateExpression::execute(EvaluationContext &context)
 	using namespace std;
 	cout << "execute(EvaluationContext)" << endl;
 	initializeAppropriateFiles();
+	cout << "Tables created :)" << endl;
+}
+
+DropExpression::DropExpression(Tokenizer &tokenizer) :
+	ModifyExpression(tokenizer)
+{
+}
+
+void DropExpression::execute(EvaluationContext &context)
+{
+	using namespace std;
+	cout << "DropExpression::execute(EvaluationContext)" << endl;
+	switch (type) {
+		case TABLE: {
+			deleteFile(TABLE_DIR + name + TABLE_EXTENSION);
+			deleteFile(SCHEMA_DIR + name + SCHEMA_EXTENSION);
+			break;
+		}
+		case FUNCTION:
+			break;
+		case PROCEDURE:
+			break;
+		default:
+			assert(0);
+			break;
+	};
 }

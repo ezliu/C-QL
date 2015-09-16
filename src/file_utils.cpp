@@ -24,3 +24,11 @@ std::fstream createFile(const std::string &filepath)
 	file.open(filepath, std::ios::out);
 	return file;
 }
+
+bool deleteFile(const std::string &filename)
+{
+	if (!exists(filename)) return false;
+	std::string command = "rm " + filename;
+	system(command.c_str());
+	return true;
+}

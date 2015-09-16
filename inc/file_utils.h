@@ -9,3 +9,7 @@ bool exists(const std::string &filename);
 
 // Creates a file with the given relative filepath and returns the fstream
 std::fstream createFile(const std::string &filepath);
+
+// Deletes a file with given relative path
+// Returns if successful
+bool deleteFile(const std::string &filename);

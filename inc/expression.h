@@ -57,3 +57,11 @@ class CreateExpression : public ModifyExpression
 		void initializeAppropriateFiles();
 
 };
+
+class DropExpression : public ModifyExpression
+{
+	public:
+		// CONSTRUCTORS
+		DropExpression(Tokenizer &tokenizer);
+		void execute(EvaluationContext &context);
+};
