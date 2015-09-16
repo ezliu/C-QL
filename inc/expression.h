@@ -7,29 +7,16 @@
 #include "evaluation_context.h"
 #include "tokenizer.h"
 
-//INTERFACE
+//INTERFACES
 class Expression
 {
 	public:
 		virtual void execute(EvaluationContext &context) = 0;
 };
 
-//INSTANCES
-class CreateExpression : public Expression
+class ModifyExpression : public Expression
 {
-	enum CreateType {
-		TABLE,
-		PROCEDURE,
-		FUNCTION
-	};
-
-	public:
-		// CONSTRUCTORS
-		CreateExpression(Tokenizer &tokenizer);
-		//CreateExpression(const std::string &type);
-
-		void execute(EvaluationContext &context);
-	private:
+	protected:
 		// File extensions
 		static const std::string TABLE_EXTENSION;
 		static const std::string SCHEMA_EXTENSION;
@@ -43,8 +30,30 @@ class CreateExpression : public Expression
 		static const std::string TABLE_DIR;
 		static const std::string SCHEMA_DIR;
 
-		void initializeAppropriateFiles(Tokenizer &tokenizer);
+		enum Type {
+			TABLE,
+			PROCEDURE,
+			FUNCTION
+		};
 
-		CreateType createType; // Type of object being created
-		std::string name;      // Name of object being created
+		Type type; 
+		std::string name;      
+
+	public:
+		ModifyExpression(Tokenizer &tokenizer);
+		virtual void execute(EvaluationContext &context) = 0;
+};
+
+//INSTANCES
+class CreateExpression : public ModifyExpression
+{
+	public:
+		// CONSTRUCTORS
+		CreateExpression(Tokenizer &tokenizer);
+		//CreateExpression(const std::string &type);
+
+		void execute(EvaluationContext &context);
+	private:
+		void initializeAppropriateFiles();
+
 };

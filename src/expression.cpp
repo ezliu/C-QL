@@ -11,35 +11,46 @@
 #include "parser.h"
 
 // Static defs
-const std::string CreateExpression::TABLE_EXTENSION = ".table";
-const std::string CreateExpression::SCHEMA_EXTENSION = ".schema";
-const std::string CreateExpression::TABLE_STRING = "table";
-const std::string CreateExpression::PROCEDURE_STRING = "procedure";
-const std::string CreateExpression::FUNCTION_STRING = "function";
-const std::string CreateExpression::TABLE_DIR = "data/table/";
-const std::string CreateExpression::SCHEMA_DIR = "data/schema/";
+const std::string ModifyExpression::TABLE_EXTENSION = ".table";
+const std::string ModifyExpression::SCHEMA_EXTENSION = ".schema";
+const std::string ModifyExpression::TABLE_STRING = "table";
+const std::string ModifyExpression::PROCEDURE_STRING = "procedure";
+const std::string ModifyExpression::FUNCTION_STRING = "function";
+const std::string ModifyExpression::TABLE_DIR = "data/table/";
+const std::string ModifyExpression::SCHEMA_DIR = "data/schema/";
 
-CreateExpression::CreateExpression(Tokenizer &tokenizer)
+ModifyExpression::ModifyExpression(Tokenizer &tokenizer)
 {
 	using namespace std;
-	cout << "CreateExpression(Tokenizer)" << endl;
+	cout << "ModifyExpression(Tokenizer)" << endl;
 	if (!tokenizer.hasNextWord()) {
 		assert(0);
 		// Throw an exception
 	}
 	string type = tolowercase(tokenizer.nextWord());
 	if (type == TABLE_STRING) {
-		createType = TABLE;
+		type = TABLE;
 	} else if (type == PROCEDURE_STRING) {
-		createType = PROCEDURE;
+		type = PROCEDURE;
 	} else if (type == FUNCTION_STRING) {
-		createType = FUNCTION;
+		type = FUNCTION;
 	} else {
 		assert(0);
 		// Throw an exception
 	}
 
-	initializeAppropriateFiles(tokenizer);
+	if (!tokenizer.hasNextWord()) {
+		SyntaxException e("Syntax error here.");
+		throw e;
+		// Throw an exception
+	}
+
+	name = tokenizer.nextWord();
+}
+
+CreateExpression::CreateExpression(Tokenizer &tokenizer) :
+   ModifyExpression(tokenizer)
+{
 }
 
 //CreateExpression::CreateExpression(const std::string &type)
@@ -48,19 +59,12 @@ CreateExpression::CreateExpression(Tokenizer &tokenizer)
 //	std::cout << "CreateExpression()" << std::endl;
 //}
 
-void CreateExpression::initializeAppropriateFiles(Tokenizer &tokenizer)
+void CreateExpression::initializeAppropriateFiles()
 {
 	using namespace std;
 
-	if (!tokenizer.hasNextWord()) {
-		assert(0);
-		// Throw an exception
-	}
-
-	name = tokenizer.nextWord();
-
 	try { // Try to create files
-		switch (createType) {
+		switch (type) {
 			case TABLE: {
 				fstream schema = createFile(SCHEMA_DIR + name + SCHEMA_EXTENSION);
 				fstream table = createFile(TABLE_DIR + name + TABLE_EXTENSION);
@@ -81,4 +85,7 @@ void CreateExpression::initializeAppropriateFiles(Tokenizer &tokenizer)
 
 void CreateExpression::execute(EvaluationContext &context)
 {
+	using namespace std;
+	cout << "execute(EvaluationContext)" << endl;
+	initializeAppropriateFiles();
 }
