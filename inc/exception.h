@@ -1,5 +1,6 @@
 //exception.h
 
+#pragma once
 #include <exception>
 #include <string>
 
@@ -12,3 +13,17 @@ class Exception : public std::exception
 	private:
 		const std::string message; // The message returned by exception
 };
+
+class SyntaxException : public Exception
+{
+	public:
+		SyntaxException(const std::string &what);
+};
+
+class FileExistsException : public Exception 
+{
+	public:
+		FileExistsException(const std::string &what);
+};
+
+

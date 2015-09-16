@@ -49,7 +49,7 @@ int main()
 			}
 			catch (Exception e) {
 				cout << e.what() << endl;
-
+				//return 0;
 			}
 		} else if (input == "2") {
 		} else {

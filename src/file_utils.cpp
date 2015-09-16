@@ -3,16 +3,20 @@
 
 #include <sys/stat.h>
 
-bool exists(std::string &filename)
+#include "exception.h"
+
+bool exists(const std::string &filename)
 {
 	struct stat buffer;   
 	return (stat (filename.c_str(), &buffer) == 0); 
 }
 
-std::fstream createFile(std::string &filepath)
+std::fstream createFile(const std::string &filepath)
 {
 	if (exists(filepath)) {
-		throw "hello, world.";
+		FileExistsException e("File of name: " + filepath + " already exists!");
+		throw e;
+		//throw "hello, world.";
 		// Throw an exception
 	}
 
